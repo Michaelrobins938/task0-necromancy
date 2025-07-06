@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Necromancy 101 | Resurrect Your Dead Tasks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Cinzel:wght@400;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --void-black: #0a0a0a;
+            --ink-black: #000000;
+            --electric-blue: #4a9eff;
+            --scorched-pink: #ff6b9d;
+            --ultraviolet-orange: #ff8c42;
+            --toxic-green: #6bcf7f;
+            --neon-purple: #a855f7;
+            --ghost-white: #f8f8ff;
+            --muted-cyan: rgba(74, 158, 255, 0.15);
+            --muted-pink: rgba(255, 107, 157, 0.12);
+            --muted-green: rgba(107, 207, 127, 0.1);
+            --muted-orange: rgba(255, 140, 66, 0.08);
+            --ink-void: rgba(0, 0, 0, 0.85);
+            --card-bg: rgba(15, 15, 25, 0.95);
+            --border-glow: rgba(74, 158, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: 
+                radial-gradient(circle at 20% 80%, var(--muted-cyan) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, var(--muted-pink) 0%, transparent 60%),
+                radial-gradient(circle at 40% 40%, var(--muted-green) 0%, transparent 70%),
+                linear-gradient(180deg, var(--void-black) 0%, #1a1a2e 100%);
+            background-attachment: fixed;
+            color: var(--ghost-white);
+            min-height: 100vh;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Subtle watercolor overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, var(--muted-cyan) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, var(--muted-pink) 0%, transparent 50%);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1;
+            animation: subtle-flow 30s infinite ease-in-out;
+        }
+
+        @keyframes subtle-flow {
+            0%, 100% { 
+                transform: translateX(0) translateY(0);
+                opacity: 0.2;
+            }
+            50% { 
+                transform: translateX(10px) translateY(-10px);
+                opacity: 0.4;
+            }
+        }
+
+        /* More subtle dripping spirits */
+        .spirit {
+            position: fixed;
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(180deg, var(--electric-blue) 0%, transparent 100%);
+            border-radius: 50% 50% 0 0;
+            animation: gentle-drip 20s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.4;
+        }
+
+        .spirit:nth-child(1) { 
+            top: 15%; 
+            left: 8%; 
+            background: linear-gradient(180deg, var(--scorched-pink) 0%, transparent 100%);
+            animation-delay: 0s; 
+        }
+
+        .spirit:nth-child(2) { 
+            top: 35%; 
+            right: 12%; 
+            background: linear-gradient(180deg, var(--toxic-green) 0%, transparent 100%);
+            animation-delay: 7s; 
+        }
+
+        .spirit:nth-child(3) { 
+            bottom: 25%; 
+            left: 15%; 
+            background: linear-gradient(180deg, var(--ultraviolet-orange) 0%, transparent 100%);
+            animation-delay: 14s; 
+        }
+
+        @keyframes gentle-drip {
+            0%, 100% { 
+                transform: translateY(0); 
+                opacity: 0.2; 
+            }
+            50% { 
+                transform: translateY(15px); 
+                opacity: 0.6; 
+            }
+        }
+
+        /* Container optimized for mobile */
+        .grimoire-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header with better mobile sizing */
+        .necromancy-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .title {
+            font-family: 'Creepster', cursive;
+            font-size: clamp(2rem, 10vw, 4rem);
+            background: linear-gradient(45deg, 
+                var(--electric-blue) 0%, 
+                var(--scorched-pink) 50%, 
+                var(--toxic-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 
+                2px 2px 0 var(--ink-black),
+                -1px -1px 0 var(--ink-black);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 10px rgba(74, 158, 255, 0.5));
+        }
+
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: var(--ghost-white);
+            font-style: italic;
+            opacity: 0.9;
+            text-shadow: 1px 1px 0 var(--ink-black);
+            padding: 0 1rem;
+        }
+
+        .subtitle::before,
+        .subtitle::after {
+            content: '⚡';
+            color: var(--electric-blue);
+            margin: 0 0.5rem;
+            font-size: 0.8em;
+        }
+
+        /* Main card with better contrast */
+        .task-grimoire {
+            background: var(--card-bg);
+            border: 2px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 30px rgba(0, 0, 0, 0.5),
+                0 0 60px var(--border-glow);
+        }
+
+        /* Section headers */
+        .incantation-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            color: var(--electric-blue);
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 
+                1px 1px 0 var(--ink-black),
+                0 0 10px var(--electric-blue);
+            padding: 0.5rem 0;
+        }
+
+        /* Form elements with better mobile UX */
+        .ritual-input {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: block;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            color: var(--ghost-white);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 0 var(--ink-black);
+        }
+
+        .cursed-input, .cursed-select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(74, 158, 255, 0.3);
+            border-radius: 12px;
+            color: var(--ghost-white);
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(0.9rem, 4vw, 1rem);
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .cursed-input:focus, .cursed-select:focus {
+            outline: none;
+            border-color: var(--electric-blue);
+            box-shadow: 
+                0 0 20px rgba(74, 158, 255, 0.4),
+                inset 0 0 10px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .cursed-input::placeholder {
+            color: rgba(248, 248, 255, 0.5);
+            font-style: italic;
+        }
+
+        /* Radio buttons optimized for mobile */
+        .ritual-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .ritual-option {
+            position: relative;
+        }
+
+        .ritual-radio {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .ritual-label {
+            display: block;
+            padding: 1.2rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(74, 158, 255, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .ritual-label strong {
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .ritual-label small {
+            font-size: clamp(0.8rem, 3.5vw, 0.9rem);
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .ritual-radio:checked + .ritual-label {
+            border-color: var(--toxic-green);
+            background: rgba(107, 207, 127, 0.1);
+            box-shadow: 0 0 20px rgba(107, 207, 127, 0.3);
+            transform: scale(1.02);
+        }
+
+        .ritual-label:hover {
+            border-color: var(--scorched-pink);
+            background: rgba(255, 107, 157, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Button optimized for mobile */
+        .resurrection-chamber {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem 0;
+        }
+
+        .resurrect-btn {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            font-weight: 600;
+            padding: 1.2rem 2rem;
+            background: linear-gradient(45deg, var(--ink-black), rgba(74, 158, 255, 0.2));
+            border: 3px solid var(--electric-blue);
+            border-radius: 25px;
+            color: var(--ghost-white);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 
+                0 5px 20px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(74, 158, 255, 0.3);
+            text-shadow: 1px 1px 0 var(--ink-black);
+            min-height: 60px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .resurrect-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.7),
+                0 0 40px rgba(74, 158, 255, 0.5);
+            border-color: var(--scorched-pink);
+        }
+
+        .resurrect-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Result section with better readability */
+        .resurrection-result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--toxic-green);
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+            animation: result-appear 0.8s ease-out;
+            box-shadow: 0 0 30px rgba(107, 207, 127, 0.3);
+        }
+
+        .resurrection-result.show {
+            display: block;
+        }
+
+        @keyframes result-appear {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .result-text {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 0 var(--ink-black);
+            line-height: 1.5;
+        }
+
+        .task-reborn {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+            color: var(--toxic-green);
+            margin-bottom: 1rem;
+            text-shadow: 
+                1px 1px 0 var(--ink-black),
+                0 0 10px var(--toxic-green);
+            line-height: 1.4;
+            padding: 0 0.5rem;
+        }
+
+        /* Dividers */
+        .bone-divider {
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(74, 158, 255, 0.3), 
+                rgba(255, 107, 157, 0.3), 
+                transparent);
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        /* Error messages */
+        .error-message {
+            color: var(--scorched-pink);
+            font-size: clamp(0.8rem, 3.5vw, 0.9rem);
+            margin-top: 0.5rem;
+            text-shadow: 1px 1px 0 var(--ink-black);
+            display: none;
+            background: rgba(255, 107, 157, 0.1);
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 107, 157, 0.3);
+        }
+
+        .error-message.show {
+            display: block;
+            animation: error-slide 0.3s ease-out;
+        }
+
+        @keyframes error-slide {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Loading state */
+        .loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .loading .resurrect-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--ghost-white);
+            border-radius: 50%;
+            animation: loading-spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes loading-spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Desktop improvements */
+        @media (min-width: 768px) {
+            .grimoire-container {
+                padding: 2rem;
+            }
+            
+            .task-grimoire {
+                padding: 3rem;
+            }
+            
+            .ritual-options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .resurrect-btn {
+                width: auto;
+                min-width: 300px;
+            }
+        }
+
+        /* Large desktop */
+        @media (min-width: 1024px) {
+            .ritual-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .section-title::before,
+            .section-title::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                width: 40px;
+                height: 2px;
+                background: linear-gradient(90deg, 
+                    transparent, 
+                    var(--electric-blue), 
+                    transparent);
+            }
+            
+            .section-title::before { left: -60px; }
+            .section-title::after { right: -60px; }
+            
+            .section-title {
+                position: relative;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --card-bg: rgba(0, 0, 0, 0.95);
+                --border-glow: rgba(255, 255, 255, 0.8);
+            }
+            
+            .cursed-input, .cursed-select {
+                border-color: var(--ghost-white);
+                background: var(--ink-black);
+            }
+            
+            .ritual-label {
+                border-color: var(--ghost-white);
+                background: var(--ink-black);
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .spirit {
+                display: none;
+            }
+        }
+
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--ink-black);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--electric-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scorched-pink);
+        }
+
+        /* Focus styles for accessibility */
+        .cursed-input:focus,
+        .cursed-select:focus,
+        .ritual-radio:focus + .ritual-label,
+        .resurrect-btn:focus {
+            outline: 2px solid var(--electric-blue);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            body::before,
+            .spirit {
+                display: none;
+            }
+            
+            .task-grimoire {
+                background: white;
+                color: black;
+                border: 2px solid black;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Subtle dripping spirits -->
+    <div class="spirit"></div>
+    <div class="spirit"></div>
+    <div class="spirit"></div>
+
+    <div class="grimoire-container">
+        <header class="necromancy-header">
+            <h1 class="title">Task Necromancy 101</h1>
+            <p class="subtitle">A Micro-Guide to Resurrecting Dead Tasks</p>
+        </header>
+
+        <main class="task-grimoire">
+            <form id="necromancy-form">
+                <section class="incantation-section">
+                    <h2 class="section-title">🪦 Identify the Corpse</h2>
+                    <div class="ritual-input">
+                        <label for="task-name" class="input-label">What task has flatlined in your consciousness?</label>
+                        <input 
+                            type="text" 
+                            id="task-name" 
+                            class="cursed-input"
+                            placeholder="e.g., 'Respond to emails from the Cretaceous Period'"
+                            required
+                        >
+                        <div class="error-message" id="task-error">Please enter a task name to resurrect.</div>
+                    </div>
+                </section>
+
+                <div class="bone-divider"></div>
+
+                <section class="incantation-section">
+                    <h2 class="section-title">⚱️ Determine Cause of Death</h2>
+                    <div class="ritual-input">
+                        <label for="death-cause" class="input-label">How did this task meet its demise?</label>
+                        <select id="death-cause" class="cursed-select" required>
+                            <option value="">Choose your poison...</option>
+                            <option value="overwhelm">Death by Overwhelm (too big, brain said nope)</option>
+                            <option value="perfectionism">Perfectionism Paralysis (not good enough = not done)</option>
+                            <option value="dopamine">Dopamine Drought (brain found shinier objects)</option>
+                            <option value="fear">Fear of Judgment (what if they think I'm stupid?)</option>
+                            <option value="executive">Executive Dysfunction (brain.exe has stopped working)</option>
+                            <option value="time">Time Blindness (it's been 3 weeks already?!)</option>
+                            <option value="energy">Energy Vampire (task sucked soul dry)</option>
+                        </select>
+                        <div class="error-message" id="cause-error">Please select the cause of your task's demise.</div>
+                    </div>
+                </section>
+
+                <div class="bone-divider"></div>
+
+                <section class="incantation-section">
+                    <h2 class="section-title">🔮 Choose Your Resurrection Ritual</h2>
+                    <div class="ritual-options">
+                        <div class="ritual-option">
+                            <input type="radio" id="gentle" name="ritual-type" value="gentle" class="ritual-radio" required>
+                            <label for="gentle" class="ritual-label">
+                                <strong>🌸 Gentle Awakening</strong>
+                                <small>Whisper sweet nothings to the task until it stirs</small>
+                            </label>
+                        </div>
+                        <div class="ritual-option">
+                            <input type="radio" id="chaos" name="ritual-type" value="chaos" class="ritual-radio">
+                            <label for="chaos" class="ritual-label">
+                                <strong>⚡ Chaos Lightning</strong>
+                                <small>Shock it back to life with pure chaotic energy</small>
+                            </label>
+                        </div>
+                        <div class="ritual-option">
+                            <input type="radio" id="strategic" name="ritual-type" value="strategic" class="ritual-radio">
+                            <label for="strategic" class="ritual-label">
+                                <strong>🗡️ Strategic Necromancy</strong>
+                                <small>Methodically rebuild it piece by piece</small>
+                            </label>
+                        </div>
+                        <div class="ritual-option">
+                            <input type="radio" id="acceptance" name="ritual-type" value="acceptance" class="ritual-radio">
+                            <label for="acceptance" class="ritual-label">
+                                <strong>🕊️ Compassionate Release</strong>
+                                <small>Maybe this task needs to rest in peace</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="ritual-error">Please choose a resurrection ritual.</div>
+                </section>
+
+                <div class="resurrection-chamber">
+                    <button type="submit" class="resurrect-btn">
+                        ⚰️ Begin Resurrection ⚰️
+                    </button>
+                </div>
+            </form>
+
+            <div id="result" class="resurrection-result">
+                <div class="result-text">
+                    🌟 <strong>RESURRECTION COMPLETE</strong> 🌟
+                </div>
+                <div id="task-reborn" class="task-reborn"></div>
+                <div id="ritual-guidance" class="result-text"></div>
+                <div style="margin-top: 1.5rem; font-style: italic; opacity: 0.8; font-size: clamp(0.8rem, 3.5vw, 0.9rem);">
+                    <small>Your task has been reborn. Handle with care—it's still a little wobbly from the afterlife.</small>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const necromancyForm = document.getElementById('necromancy-form');
+            const resultDiv = document.getElementById('result');
+            const taskRebornDiv = document.getElementById('task-reborn');
+            const ritualGuidanceDiv = document.getElementById('ritual-guidance');
+
+            // Error message elements
+            const taskError = document.getElementById('task-error');
+            const causeError = document.getElementById('cause-error');
+            const ritualError = document.getElementById('ritual-error');
+
+            // Ritual guidance data
+            const ritualGuidance = {
+                gentle: {
+                    overwhelm: "Break this beast into tiny, adorable pieces. Like, embarrassingly small. 'Open email app' level small. Your brain needs bite-sized victories, not banquet-sized panic attacks.",
+                    perfectionism: "Set a timer for 15 minutes and create the worst possible version. Embrace the glory of 'good enough.' Perfectionism is just fear wearing a fancy outfit.",
+                    dopamine: "Pair it with something your brain actually wants. Favorite playlist? Fancy coffee? Emotional bribery works. You're not weak, you're strategic.",
+                    fear: "Remember: most people are too busy worrying about their own stuff to judge yours. You're not that important (and that's liberating). The spotlight isn't as bright as anxiety makes it seem.",
+                    executive: "Body doubling, friend. Find a human or virtual co-worker. Your brain works better with witnesses. Executive function is a team sport.",
+                    time: "Use visual timers. Your brain needs to see time, not just feel its crushing weight. Time blindness isn't a character flaw—it's a neurological difference.",
+                    energy: "Do it when you're least depleted. Match the task to your natural energy rhythms, not arbitrary schedules. You're not a machine, stop pretending to be one."
+                },
+                chaos: {
+                    overwhelm: "JUST START SOMEWHERE. ANYWHERE. Pick the weirdest part first. Confusion creates momentum! Logic is overrated—embrace the beautiful mess of getting started.",
+                    perfectionism: "Set a 'maximum effort' limit. You're not allowed to spend more than X time making it perfect. Perfectionism has a budget now. Overspending is banned.",
+                    dopamine: "CHAOS REWARDS! Every 10 minutes, treat yourself to something random. Dancing? Snacks? Weird YouTube videos? Yes to all. Make your brain work FOR you.",
+                    fear: "What's the absolute worst that could happen? Write it down. Then laugh at how ridiculous it sounds. Fear is often fiction with really good special effects.",
+                    executive: "Work in chaos sprints. 15 minutes of pure, glorious mess-making. No rules, just movement. Your executive function needs permission to be imperfect.",
+                    time: "Time boxing with attitude. 'I will do this thing for exactly 23 minutes because chaos energy thrives on weird numbers.' Make time work for your chaos, not against it.",
+                    energy: "ENERGY MATCHING! High energy = chaos tasks. Low energy = gentle tasks. Don't fight your natural rhythms—ride them like a neurological surfboard."
+                },
+                strategic: {
+                    overwhelm: "PROJECT ARCHAEOLOGY: Dig into this task like you're uncovering ancient artifacts. What are the actual component parts? Map the terrain before you travel it.",
+                    perfectionism: "Define 'done' before you start. Write it down. Post it somewhere visible. Done = defined, not perfect. Perfectionism is moving the goalposts mid-game.",
+                    dopamine: "REWARD LADDERS: Small reward at 25% completion, medium at 50%, large at 75%, CELEBRATION at 100%. Your brain needs a roadmap to dopamine town.",
+                    fear: "FEAR INVENTORY: List every fear. Then list evidence for/against each one. Your anxiety is not a reliable narrator—it's a very dramatic storyteller.",
+                    executive: "EXTERNAL STRUCTURE HACK: Deadlines, accountability partners, body doubling, app blockers. Your executive function needs scaffolding, not self-flagellation.",
+                    time: "TIME ARCHAEOLOGY: Track how long similar tasks actually take. Your time estimates are probably wrong (everyone's are). Data beats intuition every time.",
+                    energy: "ENERGY AUDIT: Track your energy patterns for a week. Then schedule tasks accordingly. Work WITH your rhythms, not against them. You're not defying nature, you're working with it."
+                },
+                acceptance: {
+                    overwhelm: "This task might be too big for current-you. Can you delay it, delegate it, or delete it? Not everything needs to be done. Some mountains aren't meant to be climbed.",
+                    perfectionism: "Maybe this task doesn't need to exist in its perfect form. What would 'good enough' look like? Can you live with that? Perfect is the enemy of done.",
+                    dopamine: "Your brain is telling you something. Maybe this task isn't aligned with your values or goals. Permission to let it go. Not every task deserves your precious energy.",
+                    fear: "The fear might be valid information. Sometimes not doing something IS the right choice. Trust your instincts. Your nervous system might be protecting you.",
+                    executive: "You're not broken for struggling with this. Some tasks require more executive function than you have available. That's human, not failure.",
+                    time: "Time is finite. Choosing not to do this thing means choosing to do other things. What matters more? Opportunity cost is real—honor it.",
+                    energy: "Energy is precious. This task might be costing more than it's worth. Permission to conserve your energy for what truly matters. You're not a renewable resource."
+                }
+            };
+
+            const resurrectionMessages = {
+                gentle: "has been gently coaxed back to life with tender care and minimal trauma",
+                chaos: "has been VIOLENTLY RESURRECTED with chaotic lightning and beautiful pandemonium",
+                strategic: "has been methodically reconstructed from its component parts like a productivity Frankenstein",
+                acceptance: "has been lovingly released to whatever realm it needs to be in (maybe that's the trash, maybe that's later)"
+            };
+
+            // Form validation function
+            function validateForm() {
+                let isValid = true;
+                
+                // Reset error messages
+                taskError.classList.remove('show');
+                causeError.classList.remove('show');
+                ritualError.classList.remove('show');
+
+                // Validate task name
+                const taskName = document.getElementById('task-name').value.trim();
+                if (!taskName) {
+                    taskError.classList.add('show');
+                    isValid = false;
+                }
+
+                // Validate death cause
+                const deathCause = document.getElementById('death-cause').value;
+                if (!deathCause) {
+                    causeError.classList.add('show');
+                    isValid = false;
+                }
+
+                // Validate ritual type
+                const ritualType = document.querySelector('input[name="ritual-type"]:checked');
+                if (!ritualType) {
+                    ritualError.classList.add('show');
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            // Form submission handler
+            necromancyForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!validateForm()) {
+                    // Focus on first error
+                    const firstError = document.querySelector('.error-message.show');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+
+                // Show loading state
+                necromancyForm.classList.add('loading');
+                
+                // Get form values
+                const taskName = document.getElementById('task-name').value.trim();
+                const deathCause = document.getElementById('death-cause').value;
+                const ritualType = document.querySelector('input[name="ritual-type"]:checked').value;
+                
+                // Simulate processing time for dramatic effect
+                setTimeout(() => {
+                    // Remove loading state
+                    necromancyForm.classList.remove('loading');
+                    
+                    // Populate result
+                    taskRebornDiv.textContent = `"${taskName}" ${resurrectionMessages[ritualType]}`;
+                    ritualGuidanceDiv.innerHTML = `<strong>Your Necromantic Guidance:</strong><br><br>${ritualGuidance[ritualType][deathCause]}`;
+                    
+                    // Show result with animation
+                    resultDiv.classList.add('show');
+                    
+                    // Scroll to result
+                    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                }, 1000); // 1 second delay for effect
+            });
+
+            // Remove error messages when user starts typing/selecting
+            document.getElementById('task-name').addEventListener('input', function() {
+                taskError.classList.remove('show');
+            });
+
+            document.getElementById('death-cause').addEventListener('change', function() {
+                causeError.classList.remove('show');
+            });
+
+            document.querySelectorAll('input[name="ritual-type"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    ritualError.classList.remove('show');
+                });
+            });
+        });
+
+        // Subtle interactive effects for desktop
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', function(e) {
+                const spirits = document.querySelectorAll('.spirit');
+                spirits.forEach((spirit, index) => {
+                    const speed = (index + 1) * 0.00003;
+                    const x = Math.sin(e.clientX * speed) * 8;
+                    const y = Math.cos(e.clientY * speed) * 5;
+                    spirit.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        }
+    </script>
+</body>
+</html>
